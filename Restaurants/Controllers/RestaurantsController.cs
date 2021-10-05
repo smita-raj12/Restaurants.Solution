@@ -16,17 +16,21 @@ namespace Restaurants.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    public ActionResult Index(string searchString)
     {
-      List<Restaurant> model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
-      return View(model);
+      IQueryable<Restaurant> Restaurants= _db.Restaurants.Include(restaurant => restaurant.Cuisine);
+      if (!string.IsNullOrEmpty(searchString))
+      {
+        Restaurants = Restaurants.Where(Restaurant => Restaurant.Name.Contains(searchString));
+      }
+      return View(Restaurants.ToList());
     }
 
     public ActionResult Create()
     {
       ViewBag.CuisineId= new SelectList(_db.Cuisines, "CuisineId", "Name");
       return View();
-    }
+    }   
 
     [HttpPost]
     public ActionResult Create(Restaurant restaurant)

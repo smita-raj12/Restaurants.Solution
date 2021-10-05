@@ -11,12 +11,19 @@
 {
   <h3>No restaurants have been added yet!</h3>
 } 
-
-@foreach (Restaurant restaurant in Model)
+else
 {
-  <li>@Html.ActionLink($"{restaurant.Name}", "Details", new { id = restaurant.RestaurantId }) | @restaurant.Cuisine.Name</li>
-}
+  @using (Html.BeginForm())
+  {
+    <p>Find By name: @Html.TextBox("SearchString")
+      <input type="submit" value="Search" /></p>
+  }
 
+  @foreach (Restaurant restaurant in Model)
+  {
+    <li>@Html.ActionLink($"{restaurant.Name}", "Details", new { id = restaurant.RestaurantId }) | @restaurant.Cuisine.Name</li>
+  }
+}
 <p>@Html.ActionLink("Add new restaurant", "Create")</p>
 
 <p>@Html.ActionLink("Home", "Index", "Home")</p>

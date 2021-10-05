@@ -15,18 +15,18 @@ namespace Restaurants.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    public ActionResult Index(string searchString)
     {
-      List<Cuisine> model = _db.Cuisines.ToList();
-      return View(model);
+      // List<Cuisine> model = _db.Cuisines.ToList();
+      // return View(model);
+      IQueryable<Cuisine> Cuisines= _db.Cuisines.OrderBy(x => x.Name);
+      if (!string.IsNullOrEmpty(searchString))
+      {
+        Cuisines = Cuisines.Where(cuisine => cuisine.Name.Contains(searchString));
+      }
+      return View(Cuisines.ToList());
     }
 
-    // public ActionResult Index(Cuisine cuisine)
-    // {
-    //   List<Cuisine> model = _db.Cuisines.Where(s => s.cuisine == Name);
-    //   return RedirectToAction("Index");
-    // }
-    //.Where(s => s.Name.Contains(searchString))
     public ActionResult Create()
     {
       return View();

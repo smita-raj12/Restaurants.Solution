@@ -1,8 +1,0 @@
-@* @model Restaurants.Models.Cuisine
-
-
-    @foreach(Cuisine cuisine in Model)
-    {
-        <li>@Html.ActionLink($"{cuisine.Name}", "Details", new { id = cuisine.CuisineId })</li>
-    }
-  *@
